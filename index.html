@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>留言板</title>
+	<link rel="stylesheet" href="css/index.css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="js/v3.2.8/vue.global.prod.js" type="text/javascript" charset="utf-8"></script>
+	<script src="//彪哥.top/style/js/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+	<div class="top">
+		<a class="user" href="login.php" v-text="user?user:'登录'">登录</a>
+		<h1>留言管理系统</h1>
+		<a class="user" href="api/exit.php" v-if="user">退出登录</a>
+	</div>
+	<div class="main">
+		<div class="msg" v-for="(item,index) in list" :style="itemStyle(item.back)">
+			<b>{{ item.name }}</b>
+			<p>{{ item.msg }}</p>
+			<sup>{{ item.time }}</sup>
+			<button @click="def(item.id,index)" v-if="showdef(item.name)">删除</button>
+		</div>
+		
+		<div class="input">
+			<input type="text" v-model="msg" placeholder="留言内容"/>
+			<button @click="go()">提交</button>
+		</div>
+	</div>
+</div>
+<script>
+const App = {
+	data() {
+		return {	//json
+			list:[
+				{"id":0,"name":123,"msg":"加载中……","time":"2020-20-20 10:00"}
+			],
+			msg:'',
+			user:'123',
+			loginstate:'登录',
+		}
+	},methods:{
+		itemStyle(i) {
+		      return {background: `#${i}`};
+		},
+		go:function(){
+			if(!this.user){
+				alert("留言请先登录！");
+				window.location.href = 'login.php';
+				return 0;
+			}
+			let back = Math.floor(Math.random()*100000000);
+			let date = new Date();
+			let time = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()+' '+date.getHours()+':'+date.getMinutes();
+			if(this.msg){
+				let msg = {"name":this.user,"msg":this.msg,"back":back,"time":time};
+				this.list.push(msg);
+				this.putmess(back);
+				this.msg = '';
+			 }else alert("输入为空！");
+		},
+		putmess:function(back){
+			var that = this;
+			axios.post("api/putmess.php",{
+				msg:this.msg,
+				back:back
+			}).then(function(resp) {
+				let data = resp.data;
+				let state = data.state;
+				if(state =='200') {
+					//alert("留言成功！");
+					that.getmess();
+				}else if(state =='302') {
+					alert(data.msg);
+					window.location.href = data.url;
+				}
+				else if(state =='400') alert(data.msg);
+				else alert("请求服务器时发生错误！\n\n错误代码:"+ data);
+			});
+		},
+		getmess:function(){
+			var that = this;
+			axios.post("api/main.php").then(function(resp) {
+				let data = resp.data;
+				let state = data.state;
+				if(state =='200') {
+					that.list = data.messlist;
+					that.user = data.user;
+					if(data.user) {that.loginstate = data.user;}
+					else {that.loginstate='登录';}
+				}
+				else if(state =='400') alert(data.msg);
+				else alert("请求服务器时发生错误！\n\n错误代码:"+ data);
+			});
+		},def:function(id,index){
+			var that = this;
+			this.list.splice(index,1);
+			console.log(id)
+			axios.post("api/def.php",{
+				id:id,
+			}).then(function(resp) {
+				let data = resp.data;
+				let state = data.state;
+				if(state =='200') {
+					//that.getmess();
+				}
+				else if(state =='400') alert(data.msg);
+				else alert("请求服务器时发生错误！\n\n错误代码:"+ data);
+			});
+		},showdef:function(name){
+			if(name==this.user) return true;
+			else return false;
+		}
+	},mounted:function(){
+	this.getmess()
+	
+}
+};
+Vue.createApp(App).mount('#app');
+</script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+/* 重置一些默认的浏览器样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* 设置页面的背景渐变 */
+body {
+    background: linear-gradient(135deg, rgba(255,100,100,.5), rgba(100,255,100,.5));
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* 设置登录容器的样式 */
+#app {
+    background: rgba(255, 255, 255, 0.8);
+    padding:50px 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 380px;
+    text-align: center;
+}
+
+/* 设置标题的样式 */
+.title {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* 设置表单列表项的样式 */
+.main li {
+    list-style: none;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+/* 设置输入框的样式 */
+.main input[type="text"],
+.main input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+/* 当输入框获得焦点时，改变边框颜色 */
+.main input[type="text"]:focus,
+.main input[type="password"]:focus {
+    border-color: #ff7e5f;
+}
+
+/* 设置提交按钮的样式 */
+.main input[type="submit"] {
+    background: #ff7e5f;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+/* 当鼠标悬停在提交按钮上时，改变背景颜色 */
+.main input[type="submit"]:hover {
+    background: #feb47b;
+}
+
+/* 设置注册链接的样式 */
+.main a {
+    color: #ff7e5f;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+/* 当鼠标悬停在注册链接上时，改变文字颜色 */
+.main a:hover {
+    color: #feb47b;
+}
+
+/* 额外的类用于布局和样式微调 */
+.ce {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.b00f {
+    margin-bottom: 20px;
+}

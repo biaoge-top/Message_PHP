@@ -1,0 +1,179 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+html{
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(135deg, rgba(255,100,100,.5), rgba(100,255,100,.5)) ;
+	background-size: 100%;
+}
+#app {
+    padding: 25px 0;
+    color: #fff;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main{
+	justify-content: center;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 600px;
+    text-align: left;
+    position: relative;
+    z-index: 2;
+}
+@media (max-width:500px){
+    .main{
+    	width: 99vw;
+    }
+}
+
+.main-all{
+	overflow-y: auto;
+    height: 75vh;
+	margin-bottom: 25px;
+}
+.main-all > form{
+	position: absolute;
+    right: 10px;
+    left: 10px;
+    bottom: 10px;
+}
+
+/* 设置顶部区域的样式 */
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+	color: #000;
+}
+
+/* 设置用户链接的样式 */
+.user {
+    color: #4a148c;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.user:hover {
+    color: #8e44ad;
+}
+
+
+h1 {
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.msg {
+    background: #fff;
+    color: #333;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+/* 当鼠标悬停在留言条目上时，添加阴影和轻微的上移效果 */
+.msg:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 设置留言内容的样式 */
+.msg b,
+.msg p,
+.msg sup {
+    display: block;
+}
+
+.msg b {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.msg p {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.msg sup {
+	position: absolute;
+	right: 10px;
+	color: #777;
+    font-size: 12px;
+    margin-top: -5px; /* 修正sup元素默认的上偏移 */
+}
+
+/* 设置删除按钮的样式 */
+.msg button {
+    background: #ff6347;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 14px;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+/* 当鼠标悬停在删除按钮上时，增加透明度 */
+.msg button:hover {
+    opacity: 1;
+}
+
+/* 设置输入区域的样式 */
+.input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* 设置输入框的样式 */
+.input input[type="text"] {
+    width: calc(100% - 100px);
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    outline: none;
+    font-size: 17px;
+    color: #333;
+}
+
+/* 设置提交按钮的样式 */
+.input input[type="submit"] {
+    background: #4a148c;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+/* 当鼠标悬停在提交按钮上时，改变背景颜色 */
+.input input[type="submit"]:hover {
+    background: #8e44ad;
+}

@@ -1,0 +1,220 @@
+<!--?php
+	header("Content-Type:text/html;charset=utf-8");
+	error_reporting(E_ALL^ E_NOTICE);	//关闭非致命的提示 
+	
+	if($_COOKIE['logonid']!=NULL){
+		$user=$_COOKIE['logonid'];
+	}else{
+		echo "<script>alert('请先登录！'); window.location.href='../login.php';</script>";
+		exit();
+	}
+
+	require ('../api/config.php');
+	$sql = mysqli_query($conn,"SELECT state FROM users WHERE name LIKE '$user'");
+	$user = mysqli_fetch_array($sql);
+	if($user['state']==5){
+	
+	}else{
+		echo "<script>alert('权限不足！')window.location.href='../login.php';</script></script>";
+		exit();
+	}
+?-->
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="../css/admin_index.css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="../js/v3.2.8/vue.global.prod.js" type="text/javascript" charset="utf-8"></script>
+	<script src="//彪哥.top/style/js/axios.min.js"></script>
+	<title>后台管理系统</title>
+</head>
+<body>
+<div id="app">
+	
+<dialog open>
+	<div class="window" >
+		<a class="off">×</a>
+		<div class="win-top">
+			<h2>用户管理</h2>
+		</div>
+		<table>
+			<thead>
+				<tr>
+					<th class="th-input">Uid</th>
+					<th class="th-input">用户名</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="td-input"><input type="number" value="1"/></td>
+					<td class="td-input"><input type="text" value="admin"/></td>
+				</tr>
+			</tbody>
+			<thead>
+				<tr>
+					<th class="th-input">State</th>
+					<th class="th-input">密码</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="td-input"><input type="number" value="5" /></td>
+					<td class="td-input"><input type="password" value="123456789123456789" /></td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="tijiao-div">
+			<button class="tijiao">提交</button>
+		</div>
+		
+	</div>
+</dialog>
+	
+<div class="top">
+	<h1>后台管理系统</h1>
+</div>
+
+<div class="main">
+	<div class="main-div">
+		<div class="title">
+			<h2>预览</h2>
+		</div>
+		<div class="main-item yulan">
+			<div>
+				<div class="yulan-wai">
+					<div class="yulan-nei">
+						<b>1000</b>
+					</div>
+				</div>
+				<span>访问量</span>
+			</div>
+			<div>
+				<div class="yulan-wai">
+					<div class="yulan-nei">
+						<b>100</b>
+					</div>
+				</div>
+				<span>留言量</span>
+			</div>
+			<div>
+				<div class="yulan-wai">
+					<div class="yulan-nei">
+						<b>99</b>
+					</div>
+				</div>
+				<span>用户量</span>
+			</div>
+			<div>
+				<div class="yulan-wai">
+					<div class="yulan-nei">
+						<b>99+</b>
+					</div>
+				</div>
+				<span>待审核</span>
+			</div>
+		</div>
+	</div>
+	<div class="main-div">
+		<div class="title">
+			<h2>用户管理</h2>
+		</div>
+		<div class="main-item users">
+			<table>
+				<thead>
+					<tr>
+						<th>Uid</th>
+						<th>用户名</th>
+						<th>状态</th>
+						<th>管理</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="item in userlist" key="item.uid">
+						<td>{{ item.uid }}</td>
+						<td>{{ item.name }}</td>
+						<td>{{ stateif(item.state) }}</td>
+						<td class="admin-button">
+							<button>重置密码</button>
+							
+							<div v-for="index in statelist">
+								<button v-if="!(item.state === index.id)" @click="editstate(item.uid,index.id)" :value="index.id">{{ index.state }}</button>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="main-div">
+		<div class="title">
+			<h2>留言管理</h2>
+		</div>
+		<div class="main-item users">
+			<table>
+				<thead>
+					<tr>
+						<th>用户名</th>
+						<th>留言</th>
+						<th>状态</th>
+						<th>管理</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="item in userlist" key="item.uid">
+						<td>{{ item.uid }}</td>
+						<td>{{ item.name }}</td>
+						<td>{{ stateif(item.state) }}</td>
+						<td class="admin-button">
+							
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+</div>
+</body>
+<script>
+	
+
+	
+const App = {
+data() {
+	return {	//json
+		userlist:[
+			{"uid":1,"name":"admin","state":5},
+			{"uid":2,"name":"123","state":2},
+			{"uid":3,"name":"123456","state":2},
+		],
+		statelist:[
+			{"id":0,"state":"封禁"},
+			{"id":1,"state":"禁言"},
+			{"id":2,"state":"普通"},
+			{"id":5,"state":"管理"}
+		],
+		state:null,
+		
+	}
+},methods:{
+	stateif:function(i){
+		switch(i){
+			case 0: return '封禁';
+			case 1: return '禁言';
+			case 2: return '普通';
+			case 5: return '管理';
+		}
+	},
+	editstate:function(uid,stateid){
+		console.log(uid+'  '+stateid)
+	},
+},mounted:function(){
+	//dialog.show();
+}
+};
+Vue.createApp(App).mount('#app');
+</script>
+
+</html>
